@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<head>
+    <title> To-Do App</title>
+
+    <!-- Link to the BLACK font -->
+    <link href="https://fonts.cdnfonts.com/css/black" rel="stylesheet">
+
+    <!-- Link to the Agency FB font-->
+    <link href="https://fonts.cdnfonts.com/css/agency-fb" rel="stylesheet">
+
+    <!-- Link to pen icon for edit use -->
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <!-- CSS section -->
+    <style>
+        /* For <div container> */
+        .container{
+            width: 100%;
+            min-height: 100vh;
+            background-image: url(images/ghost.jfif);
+            padding: 10px;
+        }
+
+        /* For <div to-do-app> */
+        .to-do-app{
+            width: 100%;
+            max-width: 540px;
+            background-color: rgb(202, 199, 199);
+            margin: 100px auto 20px;
+            padding: 40px 30px 70px;
+            border-radius: 10px;
+            font-family: 'Agency FB', sans-serif;
+        }
+        .to-do-app h2{
+            color: #252525;
+            text-align: center; /* Centers the title */
+            font-size: 40px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-family: 'BLACK', sans-serif;
+        }
+
+        /* For <div row> */
+        .row{
+            font-family: Arial, Helvetica, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #000000;
+            border-radius: 30px;
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+
+        input{
+            flex: 1;
+            color: white;
+            border: none;
+            outline: none;
+            background: transparent;
+            padding: 10px;
+        }
+
+        .addButton{
+            border: none;
+            outline: none;
+            padding: 16px 50px;
+            background: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 40px;
+        }
+        
+        .addButton:hover{
+            background-color: #ff9e08;
+            color: #000000;
+        }
+        
+        /* For the  listed items */
+        ul li{
+            list-style: none;
+            font-size: 20px;
+            color: rgb(36, 4, 87);
+            padding: 12px 8px 12px 35px;
+            user-select: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        ul li::before{
+            content: '';
+            position: absolute;
+            height: 28px;
+            width: 28px;
+            border-radius: 50%;
+            background-image: url(images/unchecked.png);
+            background-size: contain; /* Ensures that the image fits within the circle */
+            background-position: center;
+            background-repeat: no-repeat; /* Prevents tiling or repeating */
+            background-position: center;
+            top: 12px;
+            left: 0;
+        }
+
+        ul li.checked{
+            color: #555;
+            text-decoration: line-through;
+        }
+
+        ul li.checked::before{
+            background-image: url(images/checked.png);
+            background-size: contain; /* Ensures consistent behavior with the other image */
+        }
+
+        ul li span{
+            position: absolute;
+            right: 0;
+            top: 5px;
+            width: 40px;
+            height: 40px;
+            font-size: 40px;
+            font-weight: bold;
+            color: rgb(168, 8, 8);
+            line-height: 40px;
+            text-align: center;
+            border-radius: 15px;
+        }
+
+        ul li span:hover{
+            color: #ff9e08;
+            background: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="to-do-app">
+            <h2>>To-Do List<</h2>
+            <div class="row">
+                <input type="text" id="input-Task" placeholder="Enter your tasks...">
+                <button onclick="addTask()" class="addButton">Add Task</button>
+            </div>
+
+            <!-- Unlisted items (similar to an list array) -->
+             <ul id="task-List">
+                <!-- List of items (li) -->
+             </ul>
+        </div>
+    </div>
+    
+    <!-- javascript -->
+    <script>
+        const inputTask = document.getElementById("input-Task");
+        const taskList = document.getElementById("task-List");
+
+        // Function of adding tasks
+        function addTask() {
+            const taskName = inputTask.value.trim(); // To remove the white space
+            if(taskName === ''){
+                alert("No task input. Please add a task!");
+            } else {
+                // Create new list items
+                let li = document.createElement("li");
+
+                // Get date and time
+                let currentDateTime = new Date().toLocaleString();  // Formats the date and time
+
+                // Set the content of the list item with task name and date-time
+                li.innerHTML = `<strong>${taskName}</strong> <br><small>Added on: ${currentDateTime}</small>`;
+
+                // Append the task name and the date-time in simple format
+                taskList.appendChild(li);
+                inputTask.value = ''; // Clears the input field after adding a task
+
+                // For creating the delete task action
+                let span = document.createElement("span");
+                span.innerHTML = "\u00d7"; // A  code for a cross icon
+                li.appendChild(span);
+
+            }
+        }
+
+        // Click logic for buttons on the list
+        taskList.addEventListener("click", function (e){
+            if (e.target.tagName === "LI"){
+                // If clicked on the list then it will cross the task and check the circle
+                e.target.classList.toggle("checked");
+            } else if(e.target.tagName === "SPAN"){
+                // If clicked on the span (x) then delete task
+                e.target.parentElement.remove();
+            } 
+        }, false)
+    </script>
+</body>
+</html>
