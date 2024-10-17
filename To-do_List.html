@@ -1,3 +1,5 @@
+<!-- Crisostomo, Joshua B.   [BSCPE 2-1]-->
+
 <!DOCTYPE html>
 <head>
     <title> To-Do App</title>
@@ -7,9 +9,6 @@
 
     <!-- Link to the Agency FB font-->
     <link href="https://fonts.cdnfonts.com/css/agency-fb" rel="stylesheet">
-
-    <!-- Link to pen icon for edit use -->
-    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 
     <!-- CSS section -->
     <style>
@@ -82,7 +81,7 @@
         ul li{
             list-style: none;
             font-size: 20px;
-            color: rgb(36, 4, 87);
+            color: rgb(1, 0, 3);
             padding: 12px 8px 12px 35px;
             user-select: none;
             cursor: pointer;
@@ -132,6 +131,24 @@
             color: #ff9e08;
             background: rgb(0, 0, 0);
         }
+      
+        /* for the edit button */
+        button {
+            margin-left: 10px;
+            background-color: #000000;
+            color: white; 
+            border: none; 
+            border-radius: 4px;
+            outline: none;
+            padding: 5px 10px;
+            cursor: pointer; 
+        }
+
+        button:hover {
+            background-color: #fd6c52;
+            color: #000000;
+        }
+       
     </style>
 </head>
 <body>
@@ -179,11 +196,24 @@
                 span.innerHTML = "\u00d7"; // A  code for a cross icon
                 li.appendChild(span);
 
+                // For creating an edit task action
+                let editButton = document.createElement("button");
+                editButton.innerText = "Edit task"; // Simple text for edit button
+                li.appendChild(editButton);
+
+                 // Add event listener for the edit button
+                editButton.addEventListener('click', function () {
+                    let newTask = prompt("Edit your task:", taskName); // Prompt user to enter new task
+                    // Checks if the edited task is not 'null', blank, or have the same task as the former task
+                    if (newTask !== null && newTask.trim() !== '' && newTask !== taskName) {
+                        li.firstChild.innerHTML = `<strong>${newTask}</strong> <br><small>Edited on: ${new Date().toLocaleString()}</small>`;
+                    }
+                });
             }
         }
 
         // Click logic for buttons on the list
-        taskList.addEventListener("click", function (e){
+        taskList.addEventListener("click", function (e){  //(e) means MouseEvent
             if (e.target.tagName === "LI"){
                 // If clicked on the list then it will cross the task and check the circle
                 e.target.classList.toggle("checked");
